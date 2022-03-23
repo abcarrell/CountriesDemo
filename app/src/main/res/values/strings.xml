@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CountriesDemo</string>
+
+    <string name="country_name_region">%1$s, %2$s</string>
+</resources>
