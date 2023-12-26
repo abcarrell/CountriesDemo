@@ -14,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.countriesdemo.R
 import com.example.countriesdemo.databinding.FragmentCountryBinding
+import com.example.countriesdemo.ui.CountriesViewModel.Effect
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
@@ -51,8 +52,8 @@ class CountriesFragment : Fragment(R.layout.fragment_country) {
                 launch {
                     viewModel.effects.collect { effect ->
                         when (effect) {
-                            is CountriesViewModel.Effect.CompleteMessage -> showMessage("Loading complete")
-                            is CountriesViewModel.Effect.ErrorMessage -> showMessage("Error: ${effect.message}")
+                            is Effect.CompleteMessage -> showMessage("Loading complete")
+                            is Effect.ErrorMessage -> showMessage("Error: ${effect.message}")
                         }
                     }
                 }

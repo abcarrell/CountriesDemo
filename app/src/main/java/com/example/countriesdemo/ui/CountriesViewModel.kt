@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CountriesViewModel(
-    getCountriesUseCase: GetCountriesUseCase = UseCases.getCountries()
+    getCountries: GetCountriesUseCase = UseCases.getCountries()
 ) : ViewModel() {
     private val _state: MutableStateFlow<UIState> by lazy { MutableStateFlow(UIState()) }
     val state = _state.asStateFlow()
@@ -34,15 +34,16 @@ class CountriesViewModel(
         viewModelScope.launch {
             setState { copy(loading = true) }
             withContext(Dispatchers.IO) {
-                getCountriesUseCase().run {
+                getCountries().run {
                     withContext(Dispatchers.Main) {
-                        fold({ countryList: List<Country> ->
-                            setState { copy(loading = false, countries = countryList) }
+                        onSuccess { countries ->
+                            setState { copy(loading = false, countries = countries) }
                             setEffect { Effect.CompleteMessage }
-                        }, { e ->
+                        }
+                        onFailure { e ->
                             setState { copy(loading = false) }
-                            setEffect { Effect.ErrorMessage(e.message ?: "Error loading countries") }
-                        })
+                            setEffect { Effect.ErrorMessage(e.message ?: "Error loading countries.") }
+                        }
                     }
                 }
             }
