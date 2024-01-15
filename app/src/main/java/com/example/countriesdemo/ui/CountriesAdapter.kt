@@ -9,16 +9,24 @@ import com.example.countriesdemo.databinding.CountryLayoutBinding
 import com.example.countriesdemo.models.Country
 
 class CountriesAdapter : RecyclerView.Adapter<CountriesAdapter.CountryViewHolder>() {
-    private lateinit var countries: List<Country>
+    private val countries: MutableList<Country> = mutableListOf()
 
     fun setData(data: List<Country>) {
-        countries = data
+        with(countries) {
+            size.let { oldSize ->
+                clear()
+                notifyItemRangeRemoved(0, oldSize)
+            }
+            addAll(data)
+            notifyItemRangeInserted(0, data.size)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
-        return CountryLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false).run {
-            CountryViewHolder(root)
-        }
+        return CountryLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            .run {
+                CountryViewHolder(root)
+            }
     }
 
     override fun getItemCount(): Int {
@@ -34,7 +42,8 @@ class CountriesAdapter : RecyclerView.Adapter<CountriesAdapter.CountryViewHolder
 
         fun bind(country: Country) {
             with(itemBinding) {
-                countryName.text = itemView.context.getString(R.string.country_name, country.name, country.region)
+                countryName.text =
+                    itemView.context.getString(R.string.country_name, country.name, country.region)
                 countryCode.text = country.code
                 countryCapitol.text = country.capital
             }

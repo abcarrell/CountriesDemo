@@ -2,8 +2,7 @@ package com.example.countriesdemo.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.countriesdemo.data.GetCountriesUseCase
-import com.example.countriesdemo.data.UseCases
+import com.example.countriesdemo.data.GetCountriesInteractor
 import com.example.countriesdemo.models.Country
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -13,9 +12,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CountriesViewModel(
-    getCountries: GetCountriesUseCase = UseCases.getCountries()
-) : ViewModel() {
+class CountriesViewModel(getCountries: GetCountriesInteractor) : ViewModel() {
     private val _state: MutableStateFlow<UIState> by lazy { MutableStateFlow(UIState()) }
     val state = _state.asStateFlow()
 
@@ -42,7 +39,9 @@ class CountriesViewModel(
                         }
                         onFailure { e ->
                             setState { copy(loading = false) }
-                            setEffect { Effect.ErrorMessage(e.message ?: "Error loading countries.") }
+                            setEffect {
+                                Effect.ErrorMessage(e.message ?: "Error loading countries.")
+                            }
                         }
                     }
                 }
