@@ -8,4 +8,17 @@ data class Country(
     val language: Language,
     val name: String,
     val region: String
-)
+) {
+    data class Currency(
+        val code: String,
+        val name: String,
+        val symbol: String
+    )
+
+    data class Language(
+        val code: String,
+        val name: String
+    )
+}
+
+typealias Countries = List<Country>

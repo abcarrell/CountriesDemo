@@ -3,7 +3,7 @@ package com.example.countriesdemo.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.countriesdemo.data.GetCountriesInteractor
-import com.example.countriesdemo.models.Country
+import com.example.countriesdemo.models.Countries
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,7 @@ class CountriesViewModel(getCountries: GetCountriesInteractor) : ViewModel() {
         _state.value = state.value.reduce()
     }
 
-    private val _effects: Channel<Effect> = Channel()
+    private val _effects: Channel<Effect> by lazy { Channel() }
     val effects = _effects.receiveAsFlow()
 
     private fun setEffect(effect: () -> Effect) {
@@ -51,7 +51,7 @@ class CountriesViewModel(getCountries: GetCountriesInteractor) : ViewModel() {
 
     data class UIState(
         val loading: Boolean = false,
-        val countries: List<Country> = emptyList()
+        val countries: Countries = emptyList()
     )
 
     sealed class Effect {

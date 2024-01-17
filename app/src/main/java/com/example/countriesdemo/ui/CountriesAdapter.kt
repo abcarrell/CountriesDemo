@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.countriesdemo.R
 import com.example.countriesdemo.databinding.CountryLayoutBinding
+import com.example.countriesdemo.models.Countries
 import com.example.countriesdemo.models.Country
 
 class CountriesAdapter : RecyclerView.Adapter<CountriesAdapter.CountryViewHolder>() {
     private val countries: MutableList<Country> = mutableListOf()
 
-    fun setData(data: List<Country>) {
+    fun setData(data: Countries) {
         with(countries) {
             size.let { oldSize ->
                 clear()
@@ -24,9 +25,7 @@ class CountriesAdapter : RecyclerView.Adapter<CountriesAdapter.CountryViewHolder
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
         return CountryLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            .run {
-                CountryViewHolder(root)
-            }
+            .run { CountryViewHolder(root) }
     }
 
     override fun getItemCount(): Int {

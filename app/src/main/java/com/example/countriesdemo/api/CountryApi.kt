@@ -1,6 +1,7 @@
 package com.example.countriesdemo.api
 
 import android.util.Log
+import com.example.countriesdemo.models.Countries
 import com.example.countriesdemo.models.Country
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -13,7 +14,7 @@ import java.util.concurrent.TimeUnit
 
 interface CountryApi {
     @GET("countries.json")
-    suspend fun getCountries(): Response<List<Country>>
+    suspend fun getCountries(): Response<Countries>
 
     companion object {
         private const val BASE_URL =
