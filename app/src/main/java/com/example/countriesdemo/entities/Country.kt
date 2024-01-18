@@ -1,4 +1,4 @@
-package com.example.countriesdemo.models
+package com.example.countriesdemo.entities
 
 data class Country(
     val capital: String,

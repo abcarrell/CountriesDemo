@@ -1,8 +1,7 @@
 package com.example.countriesdemo.api
 
 import android.util.Log
-import com.example.countriesdemo.models.Countries
-import com.example.countriesdemo.models.Country
+import com.example.countriesdemo.entities.Countries
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

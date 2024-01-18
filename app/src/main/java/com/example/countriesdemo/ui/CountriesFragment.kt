@@ -12,7 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy
 import com.example.countriesdemo.R
-import com.example.countriesdemo.data.getCountriesInteractor
+import com.example.countriesdemo.usecases.getCountriesInteractor
 import com.example.countriesdemo.databinding.FragmentCountryBinding
 import com.example.countriesdemo.ui.CountriesViewModel.Effect
 import com.example.countriesdemo.withFactory

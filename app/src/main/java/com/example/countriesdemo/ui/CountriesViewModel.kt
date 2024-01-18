@@ -2,8 +2,8 @@ package com.example.countriesdemo.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.countriesdemo.data.GetCountriesInteractor
-import com.example.countriesdemo.models.Countries
+import com.example.countriesdemo.usecases.GetCountriesInteractor
+import com.example.countriesdemo.entities.entities.Countries
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
