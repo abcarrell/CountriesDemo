@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.countriesdemo.R
 import com.example.countriesdemo.databinding.CountryLayoutBinding
-import com.example.countriesdemo.entities.entities.Countries
+import com.example.countriesdemo.entities.Countries
 import com.example.countriesdemo.entities.Country
 
 class CountriesAdapter : RecyclerView.Adapter<CountriesAdapter.CountryViewHolder>() {
