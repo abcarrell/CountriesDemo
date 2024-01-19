@@ -1,6 +1,5 @@
 package com.example.countriesdemo.api
 
-import android.util.Log
 import com.example.countriesdemo.entities.Countries
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -20,17 +19,13 @@ interface CountryApi {
             "https://gist.githubusercontent.com/peymano-wmt/" +
                     "32dcb892b06648910ddd40406e37fdab/raw/db25946fd77c5873b0303b858e861ce724e0dcd0/"
 
-        val instance: CountryApi by lazy {
+        val service: CountryApi by lazy {
             val gson = GsonBuilder().create()
 
             val client = OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .callTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(
-                    HttpLoggingInterceptor { msg ->
-                        Log.v("CountryApi", msg)
-                    }.setLevel(HttpLoggingInterceptor.Level.BODY)
-                )
+                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build()
 
             Retrofit.Builder()
