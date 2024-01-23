@@ -8,5 +8,5 @@ import com.example.countriesdemo.repository.CountryRepositoryImpl
 
 fun interface GetCountriesInteractor : Interactor<Result<Countries>>
 
-fun getCountriesInteractor(repository: CountryRepository = CountryRepositoryImpl(CountryApi.instance)) =
+fun getCountriesInteractor(repository: CountryRepository = CountryRepositoryImpl(CountryApi.service)) =
     GetCountriesInteractor(repository::getCountries)

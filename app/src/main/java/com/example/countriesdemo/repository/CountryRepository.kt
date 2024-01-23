@@ -12,7 +12,7 @@ class CountryRepositoryImpl(private val countryApi: CountryApi) : CountryReposit
     override suspend fun getCountries(): Result<Countries> {
         return runCatching {
             countryApi.getCountries().run {
-                if (isSuccessful) body() ?: throw IOException("Countries returned null")
+                if (isSuccessful) body() ?: listOf()
                 else throw IOException(errorBody()?.string())
             }
         }

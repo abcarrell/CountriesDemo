@@ -12,9 +12,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy
 import com.example.countriesdemo.R
-import com.example.countriesdemo.usecases.getCountriesInteractor
 import com.example.countriesdemo.databinding.FragmentCountryBinding
 import com.example.countriesdemo.ui.CountriesViewModel.Effect
+import com.example.countriesdemo.usecases.getCountriesInteractor
 import com.example.countriesdemo.withFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -80,6 +80,6 @@ class CountriesFragment : Fragment(R.layout.fragment_country) {
     }
 
     private fun showMessage(message: String) {
-        Snackbar.make(requireActivity().window.decorView, message, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 }

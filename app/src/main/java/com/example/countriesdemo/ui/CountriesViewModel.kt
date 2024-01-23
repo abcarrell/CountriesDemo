@@ -13,6 +13,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CountriesViewModel(getCountries: GetCountriesInteractor) : ViewModel() {
+    data class UIState(
+        val loading: Boolean = false,
+        val countries: Countries = emptyList()
+    )
+
+    sealed class Effect {
+        data object CompleteMessage : Effect()
+        data class ErrorMessage(val message: String) : Effect()
+    }
+
     private val _state: MutableStateFlow<UIState> by lazy { MutableStateFlow(UIState()) }
     val state = _state.asStateFlow()
 
@@ -47,15 +57,5 @@ class CountriesViewModel(getCountries: GetCountriesInteractor) : ViewModel() {
                 }
             }
         }
-    }
-
-    data class UIState(
-        val loading: Boolean = false,
-        val countries: Countries = emptyList()
-    )
-
-    sealed class Effect {
-        data object CompleteMessage : Effect()
-        data class ErrorMessage(val message: String) : Effect()
     }
 }

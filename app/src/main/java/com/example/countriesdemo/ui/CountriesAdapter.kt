@@ -9,18 +9,13 @@ import com.example.countriesdemo.databinding.CountryLayoutBinding
 import com.example.countriesdemo.entities.Countries
 import com.example.countriesdemo.entities.Country
 
-class CountriesAdapter : RecyclerView.Adapter<CountriesAdapter.CountryViewHolder>() {
-    private val countries: MutableList<Country> = mutableListOf()
+class CountriesAdapter(private var countries: Countries = listOf()) :
+    RecyclerView.Adapter<CountriesAdapter.CountryViewHolder>() {
 
     fun setData(data: Countries) {
-        with(countries) {
-            size.let { oldSize ->
-                clear()
-                notifyItemRangeRemoved(0, oldSize)
-            }
-            addAll(data)
-            notifyItemRangeInserted(0, data.size)
-        }
+        notifyItemRangeRemoved(0, countries.size)
+        countries = data
+        notifyItemRangeInserted(0, data.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
