@@ -1,10 +1,8 @@
-package com.example.countriesdemo.usecases
+package com.abcarrell.countriesdemo.domain
 
-import com.example.countriesdemo.Interactor
-import com.example.countriesdemo.api.CountryApi
-import com.example.countriesdemo.entities.Countries
-import com.example.countriesdemo.repository.CountryRepository
-import com.example.countriesdemo.repository.CountryRepositoryImpl
+import com.abcarrell.countriesdemo.Interactor
+import com.abcarrell.countriesdemo.api.CountryApi
+import com.abcarrell.countriesdemo.entities.Countries
 
 // See Denis Brandi's article on using SAM interface for use case interactors:
 // https://betterprogramming.pub/how-to-avoid-use-cases-boilerplate-in-android-d0c9aa27ef27

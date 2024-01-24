@@ -1,4 +1,4 @@
-package com.example.countriesdemo.ui
+package com.abcarrell.countriesdemo.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,11 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy
-import com.example.countriesdemo.R
-import com.example.countriesdemo.databinding.FragmentCountryBinding
-import com.example.countriesdemo.ui.CountriesViewModel.Effect
-import com.example.countriesdemo.usecases.getCountriesInteractor
-import com.example.countriesdemo.withFactory
+import com.abcarrell.countriesdemo.ui.CountriesViewModel.Effect
+import com.abcarrell.countriesdemo.R
+import com.abcarrell.countriesdemo.databinding.FragmentCountryBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
@@ -26,9 +24,7 @@ class CountriesFragment : Fragment(R.layout.fragment_country) {
     private var _binding: FragmentCountryBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: CountriesViewModel by viewModels {
-        withFactory { CountriesViewModel(getCountriesInteractor()) }
-    }
+    private val viewModel: CountriesViewModel by viewModels(factoryProducer = CountriesViewModel.Companion::create)
 
     private val adapter: CountriesAdapter by lazy {
         CountriesAdapter().apply {
@@ -61,7 +57,7 @@ class CountriesFragment : Fragment(R.layout.fragment_country) {
                         with(binding) {
                             progressBar.visibility =
                                 if (uiState.loading) View.VISIBLE else View.GONE
-                            adapter.setData(uiState.countries)
+                            adapter.data = uiState.countries
                         }
                     }
                 }

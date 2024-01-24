@@ -1,41 +1,40 @@
-package com.example.countriesdemo.ui
+package com.abcarrell.countriesdemo.ui
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.countriesdemo.R
-import com.example.countriesdemo.databinding.CountryLayoutBinding
-import com.example.countriesdemo.databinding.HeaderLayoutBinding
-import com.example.countriesdemo.entities.Countries
-import com.example.countriesdemo.entities.Country
-import com.example.countriesdemo.BaseViewHolder
-import com.example.countriesdemo.ViewHolderData
+import com.abcarrell.countriesdemo.BaseViewHolder
+import com.abcarrell.countriesdemo.R
+import com.abcarrell.countriesdemo.ViewHolderData
+import com.abcarrell.countriesdemo.databinding.CountryLayoutBinding
+import com.abcarrell.countriesdemo.databinding.HeaderLayoutBinding
+import com.abcarrell.countriesdemo.entities.Countries
+import com.abcarrell.countriesdemo.entities.Country
 
 class CountriesAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
-    private var countriesData: List<ViewHolderData> = listOf()
-
-    fun setData(data: Countries) {
-        notifyItemRangeRemoved(0, countriesData.size)
-        countriesData = data.asSequence()
-            .sortedBy { it.name }
-            .groupBy { it.name.first().toString() }
+    var data: Countries = listOf()
+        set(value) {
+            notifyItemRangeRemoved(0, countriesData.size)
+            field = value
+            notifyItemRangeInserted(0, countriesData.size)
+        }
+    private val countriesData: List<ViewHolderData>
+        get() = data.asSequence()
+            .sortedWith(compareBy<Country> { it.region }.thenBy { it.code })
+            .groupBy { it.region }.asSequence()
             .map { entry ->
                 listOf(ViewHolderData(entry.key, HEADER_VIEWTYPE)) +
                         entry.value.map { country -> ViewHolderData(country, COUNTRY_VIEWTYPE) }
-            }
-            .flatten()
-        notifyItemRangeInserted(0, countriesData.size)
-    }
+            }.flatten().toList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         return LayoutInflater.from(parent.context).let { layoutInflater ->
             when (viewType) {
                 HEADER_VIEWTYPE -> HeaderLayoutBinding.inflate(layoutInflater, parent, false)
-                    .run { HeaderViewHolder(root) }
+                    .run { HeaderViewHolder(this) }
 
                 COUNTRY_VIEWTYPE -> CountryLayoutBinding.inflate(layoutInflater, parent, false)
-                    .run { CountryViewHolder(root) }
+                    .run { CountryViewHolder(this) }
 
                 else -> throw IllegalStateException("Unsupported view type")
             }
@@ -59,17 +58,13 @@ class CountriesAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
         }
     }
 
-    class HeaderViewHolder(view: View) : BaseViewHolder<String>(view) {
-        private val itemBinding = HeaderLayoutBinding.bind(view)
-
+    class HeaderViewHolder(private val itemBinding: HeaderLayoutBinding) : BaseViewHolder<String>(itemBinding) {
         override fun bind(item: String) {
             itemBinding.headerText.text = item
         }
     }
 
-    class CountryViewHolder(view: View) : BaseViewHolder<Country>(view) {
-        private val itemBinding = CountryLayoutBinding.bind(view)
-
+    class CountryViewHolder(private val itemBinding: CountryLayoutBinding) : BaseViewHolder<Country>(itemBinding) {
         override fun bind(item: Country) {
             with(itemBinding) {
                 countryName.text =

@@ -1,7 +1,7 @@
-package com.example.countriesdemo.repository
+package com.abcarrell.countriesdemo.domain
 
-import com.example.countriesdemo.api.CountryApi
-import com.example.countriesdemo.entities.Countries
+import com.abcarrell.countriesdemo.api.CountryApi
+import com.abcarrell.countriesdemo.entities.Countries
 import java.io.IOException
 
 interface CountryRepository {
@@ -12,7 +12,7 @@ class CountryRepositoryImpl(private val countryApi: CountryApi) : CountryReposit
     override suspend fun getCountries(): Result<Countries> {
         return runCatching {
             countryApi.getCountries().run {
-                if (isSuccessful) body() ?: throw IOException("Countries returned null")
+                if (isSuccessful) body() ?: listOf()
                 else throw IOException(errorBody()?.string())
             }
         }

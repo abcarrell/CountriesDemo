@@ -1,16 +1,17 @@
-package com.example.countriesdemo.ui
+package com.abcarrell.countriesdemo.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.countriesdemo.entities.Countries
-import com.example.countriesdemo.usecases.GetCountriesInteractor
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.abcarrell.countriesdemo.domain.GetCountriesInteractor
+import com.abcarrell.countriesdemo.domain.getCountriesInteractor
+import com.abcarrell.countriesdemo.entities.Countries
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class CountriesViewModel(getCountries: GetCountriesInteractor) : ViewModel() {
     data class UIState(
@@ -49,20 +50,16 @@ class CountriesViewModel(getCountries: GetCountriesInteractor) : ViewModel() {
     init {
         viewModelScope.launch {
             setState { copy(loading = true) }
-            withContext(Dispatchers.IO) {
-                getCountries().run {
-                    withContext(Dispatchers.Main) {
-                        onSuccess { countries ->
-                            countriesList = countries
-                            setState { copy(loading = false, countries = countries) }
-                            setEffect { Effect.CompleteMessage }
-                        }
-                        onFailure { e ->
-                            setState { copy(loading = false) }
-                            setEffect {
-                                Effect.ErrorMessage(e.message ?: "Error loading countries.")
-                            }
-                        }
+            getCountries().run {
+                onSuccess { countries ->
+                    countriesList = countries
+                    setState { copy(loading = false, countries = countries) }
+                    setEffect { Effect.CompleteMessage }
+                }
+                onFailure { e ->
+                    setState { copy(loading = false) }
+                    setEffect {
+                        Effect.ErrorMessage(e.message ?: "Error loading countries.")
                     }
                 }
             }
@@ -70,6 +67,16 @@ class CountriesViewModel(getCountries: GetCountriesInteractor) : ViewModel() {
     }
 
     fun filterCountriesByName(value: CharSequence) {
-        setState { copy(countries = countriesList.filter { it.name.startsWith(value, ignoreCase = true) }) }
+        setState {
+            copy(countries = countriesList.filter { it.name.startsWith(value, ignoreCase = true) })
+        }
+    }
+
+    companion object {
+        fun create() = viewModelFactory {
+            initializer {
+                CountriesViewModel(getCountriesInteractor())
+            }
+        }
     }
 }
