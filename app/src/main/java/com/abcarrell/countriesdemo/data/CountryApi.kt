@@ -1,4 +1,4 @@
-package com.abcarrell.countriesdemo.api
+package com.abcarrell.countriesdemo.data
 
 import com.abcarrell.countriesdemo.entities.Countries
 import com.google.gson.GsonBuilder

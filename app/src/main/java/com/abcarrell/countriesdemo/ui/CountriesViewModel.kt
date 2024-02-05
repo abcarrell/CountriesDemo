@@ -7,6 +7,9 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.abcarrell.countriesdemo.domain.GetCountriesInteractor
 import com.abcarrell.countriesdemo.domain.getCountriesInteractor
 import com.abcarrell.countriesdemo.entities.Countries
+import com.abcarrell.countriesdemo.entities.GroupItem
+import com.abcarrell.countriesdemo.entities.GroupListing
+import com.abcarrell.countriesdemo.entities.groupListing
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +19,7 @@ import kotlinx.coroutines.launch
 class CountriesViewModel(getCountries: GetCountriesInteractor) : ViewModel() {
     data class UIState(
         val loading: Boolean = false,
-        val countries: Countries = emptyList()
+        val countries: GroupListing = emptyList()
     )
 
     sealed class Effect {
@@ -53,7 +56,7 @@ class CountriesViewModel(getCountries: GetCountriesInteractor) : ViewModel() {
             getCountries().run {
                 onSuccess { countries ->
                     countriesList = countries
-                    setState { copy(loading = false, countries = countries) }
+                    setState { copy(loading = false, countries = countries.group()) }
                     setEffect { Effect.CompleteMessage }
                 }
                 onFailure { e ->
@@ -68,7 +71,9 @@ class CountriesViewModel(getCountries: GetCountriesInteractor) : ViewModel() {
 
     fun filterCountriesByName(value: CharSequence) {
         setState {
-            copy(countries = countriesList.filter { it.name.startsWith(value, ignoreCase = true) })
+            copy(countries = countriesList.filter {
+                it.name.startsWith(value, ignoreCase = true)
+            }.group())
         }
     }
 
@@ -78,5 +83,10 @@ class CountriesViewModel(getCountries: GetCountriesInteractor) : ViewModel() {
                 CountriesViewModel(getCountriesInteractor())
             }
         }
+
+        private fun Countries.group(): GroupListing = asSequence()
+            .sortedBy { it.name }
+            .groupBy { it.name.first().toString() }
+            .groupListing()
     }
 }

@@ -5,27 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.abcarrell.countriesdemo.BaseViewHolder
 import com.abcarrell.countriesdemo.R
-import com.abcarrell.countriesdemo.ViewHolderData
 import com.abcarrell.countriesdemo.databinding.CountryLayoutBinding
 import com.abcarrell.countriesdemo.databinding.HeaderLayoutBinding
-import com.abcarrell.countriesdemo.entities.Countries
 import com.abcarrell.countriesdemo.entities.Country
+import com.abcarrell.countriesdemo.entities.GroupListing
 
 class CountriesAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
-    var data: Countries = listOf()
+    var data: GroupListing = listOf()
         set(value) {
-            notifyItemRangeRemoved(0, countriesData.size)
+            notifyItemRangeRemoved(0, data.size)
             field = value
-            notifyItemRangeInserted(0, countriesData.size)
+            notifyItemRangeInserted(0, data.size)
         }
-    private val countriesData: List<ViewHolderData>
-        get() = data.asSequence()
-            .sortedWith(compareBy<Country> { it.region }.thenBy { it.code })
-            .groupBy { it.region }.asSequence()
-            .map { entry ->
-                listOf(ViewHolderData(entry.key, HEADER_VIEWTYPE)) +
-                        entry.value.map { country -> ViewHolderData(country, COUNTRY_VIEWTYPE) }
-            }.flatten().toList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         return LayoutInflater.from(parent.context).let { layoutInflater ->
@@ -42,15 +33,15 @@ class CountriesAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
     }
 
     override fun getItemCount(): Int {
-        return countriesData.size
+        return data.size
     }
 
     override fun getItemViewType(position: Int): Int {
-        return countriesData[position].viewType
+        return data[position].itemType
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
-        countriesData[position].item.let { item ->
+        data[position].data.let { item ->
             when (holder) {
                 is HeaderViewHolder -> holder.bind(item as String)
                 is CountryViewHolder -> holder.bind(item as Country)
@@ -67,8 +58,7 @@ class CountriesAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
     class CountryViewHolder(private val itemBinding: CountryLayoutBinding) : BaseViewHolder<Country>(itemBinding) {
         override fun bind(item: Country) {
             with(itemBinding) {
-                countryName.text =
-                    itemView.context.getString(R.string.country_name, item.name, item.region)
+                countryName.text = itemView.context.getString(R.string.country_name, item.name, item.region)
                 countryCode.text = item.code
                 countryCapitol.text = item.capital
             }

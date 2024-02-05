@@ -1,6 +1,6 @@
 package com.abcarrell.countriesdemo
 
-import com.abcarrell.countriesdemo.api.CountryApi
+import com.abcarrell.countriesdemo.data.CountryApi
 import com.abcarrell.countriesdemo.entities.Countries
 import com.abcarrell.countriesdemo.entities.Country
 import com.abcarrell.countriesdemo.domain.CountryRepository

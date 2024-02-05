@@ -1,18 +1,5 @@
 package com.abcarrell.countriesdemo
 
-import android.annotation.SuppressLint
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.abcarrell.countriesdemo.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-    private val binding: ActivityMainBinding by lazy {
-        ActivityMainBinding.inflate(layoutInflater)
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-    }
-}
+class MainActivity : AppCompatActivity(R.layout.activity_main)

@@ -1,8 +1,8 @@
 package com.abcarrell.countriesdemo
 
+import com.abcarrell.countriesdemo.domain.GetCountriesInteractor
 import com.abcarrell.countriesdemo.entities.Country
 import com.abcarrell.countriesdemo.ui.CountriesViewModel
-import com.abcarrell.countriesdemo.domain.GetCountriesInteractor
 import io.mockk.MockKAnnotations
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -65,8 +65,13 @@ class CountriesViewModelTest {
 
             with(viewModel.state.value) {
                 assertFalse(loading)
-                assertEquals("US", countries.first().code)
-                assertEquals("NA", countries.first().region)
+                with(countries.first { it.data is String }.data as String) {
+                    assertEquals("U", this)
+                }
+                with(countries.first { it.data is Country }.data as Country) {
+                    assertEquals("US", code)
+                    assertEquals("NA", region)
+                }
             }
         }
     }
