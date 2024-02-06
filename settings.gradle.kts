@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "CountriesDemo"
 include(":app")
- 
+include(":mvi")

@@ -8,6 +8,8 @@ import com.abcarrell.countriesdemo.R
 import com.abcarrell.countriesdemo.databinding.CountryLayoutBinding
 import com.abcarrell.countriesdemo.databinding.HeaderLayoutBinding
 import com.abcarrell.countriesdemo.entities.Country
+import com.abcarrell.countriesdemo.entities.GroupItem.Companion.VIEWTYPE_HEADER
+import com.abcarrell.countriesdemo.entities.GroupItem.Companion.VIEWTYPE_ITEM
 import com.abcarrell.countriesdemo.entities.GroupListing
 
 class CountriesAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
@@ -21,10 +23,10 @@ class CountriesAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         return LayoutInflater.from(parent.context).let { layoutInflater ->
             when (viewType) {
-                HEADER_VIEWTYPE -> HeaderLayoutBinding.inflate(layoutInflater, parent, false)
+                VIEWTYPE_HEADER -> HeaderLayoutBinding.inflate(layoutInflater, parent, false)
                     .run { HeaderViewHolder(this) }
 
-                COUNTRY_VIEWTYPE -> CountryLayoutBinding.inflate(layoutInflater, parent, false)
+                VIEWTYPE_ITEM -> CountryLayoutBinding.inflate(layoutInflater, parent, false)
                     .run { CountryViewHolder(this) }
 
                 else -> throw IllegalStateException("Unsupported view type")
@@ -63,10 +65,5 @@ class CountriesAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
                 countryCapitol.text = item.capital
             }
         }
-    }
-
-    companion object {
-        private const val HEADER_VIEWTYPE = 0
-        private const val COUNTRY_VIEWTYPE = 1
     }
 }

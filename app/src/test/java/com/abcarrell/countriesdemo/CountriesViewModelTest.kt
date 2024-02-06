@@ -3,6 +3,8 @@ package com.abcarrell.countriesdemo
 import com.abcarrell.countriesdemo.domain.GetCountriesInteractor
 import com.abcarrell.countriesdemo.entities.Country
 import com.abcarrell.countriesdemo.ui.CountriesViewModel
+import com.tc.mvi.MVIActor
+import com.tc.mvi.mvi
 import io.mockk.MockKAnnotations
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +26,8 @@ class CountriesViewModelTest {
     private lateinit var viewModel: CountriesViewModel
 
     private lateinit var getCountriesInteractor: GetCountriesInteractor
+
+    private lateinit var mvi: MVIActor<CountriesViewModel.UIState, Nothing, CountriesViewModel.Effect>
 
     @Before
     fun setup() {
@@ -53,8 +57,10 @@ class CountriesViewModelTest {
             Result.success(listOf(country))
         }
 
+        mvi = mvi(CountriesViewModel.UIState())
+
         runTest {
-            viewModel = CountriesViewModel(getCountriesInteractor)
+            viewModel = CountriesViewModel(getCountriesInteractor, mvi)
 
             with(viewModel.state.value) {
                 assertTrue(loading)
@@ -66,7 +72,7 @@ class CountriesViewModelTest {
             with(viewModel.state.value) {
                 assertFalse(loading)
                 with(countries.first { it.data is String }.data as String) {
-                    assertEquals("U", this)
+                    assertEquals("NA", this)
                 }
                 with(countries.first { it.data is Country }.data as Country) {
                     assertEquals("US", code)

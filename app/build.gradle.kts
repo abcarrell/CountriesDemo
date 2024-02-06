@@ -57,6 +57,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(project(":mvi"))
 
     kapt("androidx.annotation:annotation:1.7.1")
 

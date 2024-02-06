@@ -24,7 +24,7 @@ class CountriesFragment : Fragment(R.layout.fragment_country) {
     private var _binding: FragmentCountryBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: CountriesViewModel by viewModels(factoryProducer = CountriesViewModel.Companion::create)
+    private val viewModel: CountriesViewModel by viewModels { CountriesViewModel.create() }
 
     private val adapter: CountriesAdapter by lazy {
         CountriesAdapter().apply {
