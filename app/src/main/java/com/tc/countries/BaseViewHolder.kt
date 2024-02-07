@@ -1,4 +1,4 @@
-package com.abcarrell.countriesdemo
+package com.tc.countries
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding

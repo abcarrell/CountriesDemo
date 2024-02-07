@@ -1,4 +1,4 @@
-package com.abcarrell.countriesdemo.ui
+package com.tc.countries.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,10 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy
-import com.abcarrell.countriesdemo.ui.CountriesViewModel.Effect
-import com.abcarrell.countriesdemo.R
-import com.abcarrell.countriesdemo.databinding.FragmentCountryBinding
 import com.google.android.material.snackbar.Snackbar
+import com.tc.countries.R
+import com.tc.countries.databinding.FragmentCountryBinding
+import com.tc.countries.ui.CountriesViewModel.Effect
 import kotlinx.coroutines.launch
 
 class CountriesFragment : Fragment(R.layout.fragment_country) {

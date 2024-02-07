@@ -1,8 +1,8 @@
-package com.abcarrell.countriesdemo
+package com.tc.countries
 
-import com.abcarrell.countriesdemo.domain.GetCountriesInteractor
-import com.abcarrell.countriesdemo.entities.Country
-import com.abcarrell.countriesdemo.ui.CountriesViewModel
+import com.tc.countries.domain.GetCountriesInteractor
+import com.tc.countries.entities.Country
+import com.tc.countries.ui.CountriesViewModel
 import com.tc.mvi.MVIActor
 import com.tc.mvi.mvi
 import io.mockk.MockKAnnotations

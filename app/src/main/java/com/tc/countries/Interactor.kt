@@ -1,4 +1,4 @@
-package com.abcarrell.countriesdemo
+package com.tc.countries
 
 // See Denis Brandi's article on using SAM interface for use case interactors:
 // https://betterprogramming.pub/how-to-avoid-use-cases-boilerplate-in-android-d0c9aa27ef27

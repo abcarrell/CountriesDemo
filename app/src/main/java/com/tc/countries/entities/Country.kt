@@ -1,4 +1,4 @@
-package com.abcarrell.countriesdemo.entities
+package com.tc.countries.entities
 
 data class Country(
     val capital: String,

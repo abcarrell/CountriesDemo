@@ -1,6 +1,6 @@
-package com.abcarrell.countriesdemo.data
+package com.tc.countries.data
 
-import com.abcarrell.countriesdemo.entities.Countries
+import com.tc.countries.entities.Countries
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

@@ -1,4 +1,4 @@
-package com.abcarrell.countriesdemo.entities
+package com.tc.countries.entities
 
 data class GroupItem<T>(
     val data: T,

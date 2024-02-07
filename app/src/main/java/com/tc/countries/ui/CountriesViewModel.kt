@@ -1,15 +1,15 @@
-package com.abcarrell.countriesdemo.ui
+package com.tc.countries.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.abcarrell.countriesdemo.domain.GetCountriesInteractor
-import com.abcarrell.countriesdemo.domain.getCountriesInteractor
-import com.abcarrell.countriesdemo.entities.Countries
-import com.abcarrell.countriesdemo.entities.Country
-import com.abcarrell.countriesdemo.entities.GroupListing
-import com.abcarrell.countriesdemo.entities.groupListing
+import com.tc.countries.domain.GetCountriesInteractor
+import com.tc.countries.domain.getCountriesInteractor
+import com.tc.countries.entities.Countries
+import com.tc.countries.entities.Country
+import com.tc.countries.entities.GroupListing
+import com.tc.countries.entities.groupListing
 import com.tc.mvi.MVI
 import com.tc.mvi.MVIActor
 import com.tc.mvi.mvi
@@ -24,9 +24,9 @@ class CountriesViewModel(
         val countries: GroupListing = emptyList()
     )
 
-    sealed class Effect {
-        data object CompleteMessage : Effect()
-        data class ErrorMessage(val message: String) : Effect()
+    sealed interface Effect {
+        data object CompleteMessage : Effect
+        data class ErrorMessage(val message: String) : Effect
     }
 
     private var countriesList: Countries = listOf()

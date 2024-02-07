@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.abcarrell.countriesdemo"
+    namespace = "com.tc.countries"
     compileSdk = 34
 
     buildFeatures {
@@ -14,7 +14,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.abcarrell.countriesdemo"
+        applicationId = "com.tc.countries"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

@@ -1,10 +1,10 @@
-package com.abcarrell.countriesdemo
+package com.tc.countries
 
-import com.abcarrell.countriesdemo.data.CountryApi
-import com.abcarrell.countriesdemo.entities.Countries
-import com.abcarrell.countriesdemo.entities.Country
-import com.abcarrell.countriesdemo.domain.CountryRepository
-import com.abcarrell.countriesdemo.domain.CountryRepositoryImpl
+import com.tc.countries.data.CountryApi
+import com.tc.countries.entities.Countries
+import com.tc.countries.entities.Country
+import com.tc.countries.domain.CountryRepository
+import com.tc.countries.domain.CountryRepositoryImpl
 import io.mockk.mockk
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest

@@ -1,8 +1,8 @@
-package com.abcarrell.countriesdemo.domain
+package com.tc.countries.domain
 
-import com.abcarrell.countriesdemo.data.CountryApi
-import com.abcarrell.countriesdemo.data.mapToResult
-import com.abcarrell.countriesdemo.entities.Countries
+import com.tc.countries.data.CountryApi
+import com.tc.countries.data.mapToResult
+import com.tc.countries.entities.Countries
 
 interface CountryRepository {
     suspend fun getCountries(): Result<Countries>

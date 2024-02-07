@@ -1,16 +1,16 @@
-package com.abcarrell.countriesdemo.ui
+package com.tc.countries.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.abcarrell.countriesdemo.BaseViewHolder
-import com.abcarrell.countriesdemo.R
-import com.abcarrell.countriesdemo.databinding.CountryLayoutBinding
-import com.abcarrell.countriesdemo.databinding.HeaderLayoutBinding
-import com.abcarrell.countriesdemo.entities.Country
-import com.abcarrell.countriesdemo.entities.GroupItem.Companion.VIEWTYPE_HEADER
-import com.abcarrell.countriesdemo.entities.GroupItem.Companion.VIEWTYPE_ITEM
-import com.abcarrell.countriesdemo.entities.GroupListing
+import com.tc.countries.BaseViewHolder
+import com.tc.countries.R
+import com.tc.countries.databinding.CountryLayoutBinding
+import com.tc.countries.databinding.HeaderLayoutBinding
+import com.tc.countries.entities.Country
+import com.tc.countries.entities.GroupItem.Companion.VIEWTYPE_HEADER
+import com.tc.countries.entities.GroupItem.Companion.VIEWTYPE_ITEM
+import com.tc.countries.entities.GroupListing
 
 class CountriesAdapter : RecyclerView.Adapter<BaseViewHolder<*>>() {
     var data: GroupListing = listOf()

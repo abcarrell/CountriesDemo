@@ -1,5 +1,6 @@
 package com.tc.mvi
 
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +15,9 @@ class MVIDelegate<UiState, UiAction, SideEffect> internal constructor(
     private val _uiState = MutableStateFlow(initialUiState)
     override val state: StateFlow<UiState> = _uiState.asStateFlow()
 
-    private val _sideEffect: Channel<SideEffect> by lazy { Channel() }
+    private val _sideEffect: Channel<SideEffect> by lazy {
+        Channel(capacity = Channel.BUFFERED, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    }
     override val effects: Flow<SideEffect> = _sideEffect.receiveAsFlow()
 
     override fun onAction(uiAction: UiAction) {}

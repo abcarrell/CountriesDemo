@@ -14,7 +14,7 @@
         android:theme="@style/Theme.CountriesDemo"
         tools:targetApi="31">
         <activity
-            android:name="com.abcarrell.countriesdemo.MainActivity"
+            android:name="com.tc.countries.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
