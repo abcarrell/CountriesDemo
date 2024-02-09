@@ -1,6 +1,8 @@
 package com.tc.countries
 
 import com.tc.countries.data.CountryApi
+import com.tc.countries.data.ResponseDataMapper
+import com.tc.countries.data.responseDataMapper
 import com.tc.countries.entities.Countries
 import com.tc.countries.entities.Country
 import com.tc.countries.domain.CountryRepository
@@ -18,6 +20,8 @@ class CountryRepositoryTest {
     private lateinit var countryRepository: CountryRepository
 
     private lateinit var countryApi: CountryApi
+
+    private lateinit var responseDataMapper: ResponseDataMapper<Countries>
 
     @Test
     fun `getCountries returns a Country response`() {
@@ -57,7 +61,9 @@ class CountryRepositoryTest {
             }
         }
 
-        countryRepository = CountryRepositoryImpl(countryApi)
+        responseDataMapper = responseDataMapper()
+
+        countryRepository = CountryRepositoryImpl(countryApi, responseDataMapper)
 
         runTest {
             with(countryRepository.getCountries()) {
