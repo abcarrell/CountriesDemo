@@ -7,9 +7,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.tc.countries.domain.GetCountriesUseCase
 import com.tc.countries.domain.getCountriesUseCase
 import com.tc.countries.entities.Countries
-import com.tc.countries.entities.Country
-import com.tc.countries.entities.GroupListing
-import com.tc.countries.entities.groupListing
 import com.tc.mvi.MVI
 import com.tc.mvi.MVIActor
 import com.tc.mvi.mvi
@@ -21,7 +18,7 @@ class CountriesViewModel(
 ) : ViewModel(), MVI<CountriesViewModel.UIState, Nothing, CountriesViewModel.Effect> by mvi {
     data class UIState(
         val loading: Boolean = false,
-        val countries: GroupListing = emptyList()
+        val countries: Countries = emptyList()
     )
 
     sealed interface Effect {
@@ -37,7 +34,7 @@ class CountriesViewModel(
             getCountries().run {
                 onSuccess { countries ->
                     countriesList = countries
-                    mvi.setState { copy(loading = false, countries = countries.groupByName()) }
+                    mvi.setState { copy(loading = false, countries = countries) }
                     mvi.setEffect { Effect.CompleteMessage }
                 }
                 onFailure { e ->
@@ -49,24 +46,6 @@ class CountriesViewModel(
             }
         }
     }
-
-    fun filterCountriesByName(value: CharSequence) {
-        mvi.setState {
-            copy(countries = countriesList.filter {
-                it.name.startsWith(value, ignoreCase = true) || it.code.startsWith(value.take(2), ignoreCase = true)
-            }.groupByName())
-        }
-    }
-
-    private fun Countries.groupByRegion(): GroupListing = asSequence()
-        .sortedWith(compareBy<Country> { it.region }.thenBy { it.name })
-        .groupBy { it.region }
-        .groupListing()
-
-    private fun Countries.groupByName(): GroupListing = asSequence()
-        .sortedBy { it.name }
-        .groupBy { it.name.first().toString() }
-        .groupListing()
 
     companion object {
         fun create() = viewModelFactory {
