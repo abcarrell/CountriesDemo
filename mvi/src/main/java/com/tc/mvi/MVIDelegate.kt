@@ -16,7 +16,7 @@ class MVIDelegate<UiState, UiAction, SideEffect> internal constructor(
     override val state: StateFlow<UiState> = _uiState.asStateFlow()
 
     private val _sideEffect: Channel<SideEffect> by lazy {
-        Channel(capacity = Channel.BUFFERED, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+        Channel(capacity = Channel.UNLIMITED)
     }
     override val effects: Flow<SideEffect> = _sideEffect.receiveAsFlow()
 

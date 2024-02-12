@@ -1,6 +1,6 @@
 package com.tc.countries
 
-import com.tc.countries.domain.GetCountriesInteractor
+import com.tc.countries.domain.GetCountriesUseCase
 import com.tc.countries.entities.Country
 import com.tc.countries.ui.CountriesViewModel
 import com.tc.mvi.MVIActor
@@ -25,7 +25,7 @@ import org.junit.Test
 class CountriesViewModelTest {
     private lateinit var viewModel: CountriesViewModel
 
-    private lateinit var getCountriesInteractor: GetCountriesInteractor
+    private lateinit var getCountriesUseCase: GetCountriesUseCase
 
     private lateinit var mvi: MVIActor<CountriesViewModel.UIState, Nothing, CountriesViewModel.Effect>
 
@@ -52,7 +52,7 @@ class CountriesViewModelTest {
             language = mockk()
         )
 
-        getCountriesInteractor = GetCountriesInteractor {
+        getCountriesUseCase = GetCountriesUseCase {
             delay(2_000)
             Result.success(listOf(country))
         }
@@ -60,7 +60,7 @@ class CountriesViewModelTest {
         mvi = mvi(CountriesViewModel.UIState())
 
         runTest {
-            viewModel = CountriesViewModel(getCountriesInteractor, mvi)
+            viewModel = CountriesViewModel(getCountriesUseCase, mvi)
 
             with(viewModel.state.value) {
                 assertTrue(loading)
@@ -72,7 +72,7 @@ class CountriesViewModelTest {
             with(viewModel.state.value) {
                 assertFalse(loading)
                 with(countries.first { it.data is String }.data as String) {
-                    assertEquals("NA", this)
+                    assertEquals("U", this)
                 }
                 with(countries.first { it.data is Country }.data as Country) {
                     assertEquals("US", code)

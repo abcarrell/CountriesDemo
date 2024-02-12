@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.tc.countries.domain.GetCountriesInteractor
-import com.tc.countries.domain.getCountriesInteractor
+import com.tc.countries.domain.GetCountriesUseCase
+import com.tc.countries.domain.getCountriesUseCase
 import com.tc.countries.entities.Countries
 import com.tc.countries.entities.Country
 import com.tc.countries.entities.GroupListing
@@ -16,7 +16,7 @@ import com.tc.mvi.mvi
 import kotlinx.coroutines.launch
 
 class CountriesViewModel(
-    getCountries: GetCountriesInteractor,
+    getCountries: GetCountriesUseCase,
     private val mvi: MVIActor<UIState, Nothing, Effect>
 ) : ViewModel(), MVI<CountriesViewModel.UIState, Nothing, CountriesViewModel.Effect> by mvi {
     data class UIState(
@@ -37,7 +37,7 @@ class CountriesViewModel(
             getCountries().run {
                 onSuccess { countries ->
                     countriesList = countries
-                    mvi.setState { copy(loading = false, countries = countries.group()) }
+                    mvi.setState { copy(loading = false, countries = countries.groupByName()) }
                     mvi.setEffect { Effect.CompleteMessage }
                 }
                 onFailure { e ->
@@ -54,23 +54,28 @@ class CountriesViewModel(
         mvi.setState {
             copy(countries = countriesList.filter {
                 it.name.startsWith(value, ignoreCase = true) || it.code.startsWith(value.take(2), ignoreCase = true)
-            }.group())
+            }.groupByName())
         }
     }
+
+    private fun Countries.groupByRegion(): GroupListing = asSequence()
+        .sortedWith(compareBy<Country> { it.region }.thenBy { it.name })
+        .groupBy { it.region }
+        .groupListing()
+
+    private fun Countries.groupByName(): GroupListing = asSequence()
+        .sortedBy { it.name }
+        .groupBy { it.name.first().toString() }
+        .groupListing()
 
     companion object {
         fun create() = viewModelFactory {
             initializer {
                 CountriesViewModel(
-                    getCountries = getCountriesInteractor(),
+                    getCountries = getCountriesUseCase(),
                     mvi = mvi(UIState())
                 )
             }
         }
-
-        private fun Countries.group(): GroupListing = asSequence()
-            .sortedWith(compareBy<Country> { it.region }.thenBy { it.name })
-            .groupBy { it.region }
-            .groupListing()
     }
 }
